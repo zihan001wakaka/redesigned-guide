@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>个人主页</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#home" aria-label="个人主页首页">
+        <span class="brand-mark">P</span>
+        <span>个人主页</span>
+      </a>
+      <nav class="nav" aria-label="页面导航">
+        <a href="#about">资料</a>
+        <a href="#gallery">影像</a>
+        <a href="#messages">留言</a>
+        <a href="#contact">联系</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="home">
+        <div class="hero-media" aria-hidden="true">
+          <div class="portrait-ring">
+            <img id="avatarPreview" src="" alt="">
+            <span id="avatarFallback">你</span>
+          </div>
+        </div>
+        <div class="hero-copy">
+          <p class="eyebrow">个人展示空间</p>
+          <h1 id="profileName">你的名字</h1>
+          <p id="profileTitle" class="title">创作者 / 设计爱好者 / 生活记录者</p>
+          <p id="profileBio" class="bio">这里可以展示你的经历、作品、照片、视频，也可以让访客留下想说的话。</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#gallery">查看影像</a>
+            <a class="button ghost" href="#messages">写留言</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel-band" id="about">
+        <div class="section-head">
+          <p class="eyebrow">Profile</p>
+          <h2>个人信息</h2>
+        </div>
+
+        <div class="profile-grid">
+          <form class="editor" id="profileForm">
+            <label>
+              <span>姓名</span>
+              <input id="nameInput" name="name" value="你的名字" autocomplete="name">
+            </label>
+            <label>
+              <span>身份</span>
+              <input id="titleInput" name="title" value="创作者 / 设计爱好者 / 生活记录者">
+            </label>
+            <label>
+              <span>简介</span>
+              <textarea id="bioInput" name="bio" rows="4">这里可以展示你的经历、作品、照片、视频，也可以让访客留下想说的话。</textarea>
+            </label>
+            <label>
+              <span>头像</span>
+              <input id="avatarInput" type="file" accept="image/*">
+            </label>
+            <button class="button primary" type="submit">保存资料</button>
+          </form>
+
+          <div class="fact-list" aria-label="个人亮点">
+            <article>
+              <span>城市</span>
+              <strong>上海 / 远程</strong>
+            </article>
+            <article>
+              <span>关注</span>
+              <strong>摄影、产品、写作、旅行</strong>
+            </article>
+            <article>
+              <span>状态</span>
+              <strong>欢迎交流与合作</strong>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="gallery-section" id="gallery">
+        <div class="section-head">
+          <p class="eyebrow">Gallery</p>
+          <h2>图片与视频</h2>
+        </div>
+
+        <div class="upload-strip">
+          <label class="upload-zone" for="mediaInput">
+            <span class="upload-icon">+</span>
+            <span>上传图片或视频</span>
+            <input id="mediaInput" type="file" accept="image/*,video/*" multiple>
+          </label>
+          <button class="icon-button" id="clearMedia" type="button" aria-label="清空影像">×</button>
+        </div>
+
+        <div class="media-grid" id="mediaGrid" aria-live="polite"></div>
+      </section>
+
+      <section class="message-section" id="messages">
+        <div class="section-head">
+          <p class="eyebrow">Guestbook</p>
+          <h2>留言互动</h2>
+        </div>
+
+        <form class="message-form" id="messageForm">
+          <div class="form-row">
+            <label>
+              <span>昵称</span>
+              <input id="visitorName" name="visitorName" placeholder="你的昵称" required>
+            </label>
+            <label>
+              <span>心情</span>
+              <select id="visitorMood" name="visitorMood">
+                <option>很喜欢</option>
+                <option>来打招呼</option>
+                <option>想合作</option>
+                <option>继续加油</option>
+              </select>
+            </label>
+          </div>
+          <label>
+            <span>留言</span>
+            <textarea id="messageText" name="messageText" rows="4" placeholder="写点什么吧" required></textarea>
+          </label>
+          <button class="button primary" type="submit">发布留言</button>
+        </form>
+
+        <div class="messages" id="messageList" aria-live="polite"></div>
+      </section>
+
+      <section class="contact-band" id="contact">
+        <div>
+          <p class="eyebrow">Contact</p>
+          <h2>保持联系</h2>
+          <p>把邮箱、社交账号或作品集链接换成你的真实信息，就可以作为正式个人主页使用。</p>
+        </div>
+        <div class="contact-links">
+          <a href="mailto:hello@example.com">hello@example.com</a>
+          <a href="https://example.com" target="_blank" rel="noreferrer">作品集</a>
+          <a href="#messages">留言板</a>
+        </div>
+      </section>
+    </main>
+
+    <template id="mediaTemplate">
+      <article class="media-card">
+        <div class="media-shell"></div>
+        <div class="media-meta">
+          <span class="media-name"></span>
+          <button class="icon-button remove-media" type="button" aria-label="删除">×</button>
+        </div>
+      </article>
+    </template>
+
+    <template id="messageTemplate">
+      <article class="message-card">
+        <div class="message-avatar"></div>
+        <div class="message-body">
+          <div class="message-top">
+            <strong class="message-name"></strong>
+            <span class="message-mood"></span>
+          </div>
+          <p class="message-text"></p>
+          <div class="message-actions">
+            <button class="like-button" type="button">赞 <span>0</span></button>
+            <time></time>
+          </div>
+        </div>
+      </article>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
