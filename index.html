@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>个人主页</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   </head>
   <body>
     <header class="topbar">
@@ -106,14 +107,24 @@
         </div>
 
         <form class="message-form" id="messageForm">
+          <details class="visitor-settings">
+            <summary>留言身份</summary>
+            <div class="visitor-fields">
+              <label>
+                <span>昵称</span>
+                <input id="visitorName" name="visitorName" placeholder="匿名访客">
+              </label>
+              <label>
+                <span>头像链接</span>
+                <input id="visitorAvatar" name="visitorAvatar" placeholder="https://...">
+              </label>
+            </div>
+          </details>
           <label>
             <span>留言</span>
-            <textarea id="messageText" name="messageText" rows="4" placeholder="写点什么吧" required></textarea>
+            <textarea id="messageText" name="messageText" rows="4" placeholder="写点什么吧，可以直接输入 emoji，也可以粘贴或拖入图片" required></textarea>
           </label>
-          <label class="message-image-field">
-            <span>图片</span>
-            <input id="messageImage" name="messageImage" type="file" accept="image/*">
-          </label>
+          <div class="attachment-preview" id="attachmentPreview" hidden></div>
           <button class="button primary" type="submit">发布留言</button>
         </form>
 
@@ -141,12 +152,12 @@
         <div class="message-body">
           <div class="message-top">
             <strong class="message-name"></strong>
+            <time></time>
           </div>
           <p class="message-text"></p>
           <img class="message-image" alt="">
           <div class="message-actions">
             <button class="like-button" type="button">赞 <span>0</span></button>
-            <time></time>
           </div>
         </div>
       </article>
