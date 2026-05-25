@@ -1,7 +1,16 @@
 const STORAGE_KEYS = {
   profile: "personal_site_profile",
+  profileVersion: "personal_site_profile_version",
   media: "personal_site_media",
   messages: "personal_site_messages",
+};
+
+const CURRENT_PROFILE_VERSION = "2026-05-25-zhang-zihan";
+const DEFAULT_PROFILE = {
+  name: "张子晗",
+  title: "产品 / 产品运营方向",
+  bio: "上海大学建筑学硕士二年级，具备设计背景、互联网产品相关实习经历与数据分析能力，正在寻找产品或产品运营方向实习机会。",
+  avatar: "assets/avatar.jpg",
 };
 
 const $ = (selector) => document.querySelector(selector);
@@ -27,12 +36,7 @@ const messageForm = $("#messageForm");
 const messageList = $("#messageList");
 const messageTemplate = $("#messageTemplate");
 
-let profile = loadJSON(STORAGE_KEYS.profile, {
-  name: "你的名字",
-  title: "创作者 / 设计爱好者 / 生活记录者",
-  bio: "这里可以展示你的经历、作品、照片、视频，也可以让访客留下想说的话。",
-  avatar: "",
-});
+let profile = loadProfile();
 
 let mediaItems = loadJSON(STORAGE_KEYS.media, []);
 let messages = loadJSON(STORAGE_KEYS.messages, [
@@ -59,6 +63,17 @@ function saveJSON(key, value) {
   localStorage.setItem(key, JSON.stringify(value));
 }
 
+function loadProfile() {
+  const savedVersion = localStorage.getItem(STORAGE_KEYS.profileVersion);
+  if (savedVersion !== CURRENT_PROFILE_VERSION) {
+    saveJSON(STORAGE_KEYS.profile, DEFAULT_PROFILE);
+    localStorage.setItem(STORAGE_KEYS.profileVersion, CURRENT_PROFILE_VERSION);
+    return { ...DEFAULT_PROFILE };
+  }
+
+  return loadJSON(STORAGE_KEYS.profile, DEFAULT_PROFILE);
+}
+
 function fileToDataURL(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -69,13 +84,13 @@ function fileToDataURL(file) {
 }
 
 function applyProfile() {
-  profileName.textContent = profile.name || "你的名字";
+  profileName.textContent = profile.name || DEFAULT_PROFILE.name;
   profileTitle.textContent = profile.title || "";
   profileBio.textContent = profile.bio || "";
   nameInput.value = profile.name || "";
   titleInput.value = profile.title || "";
   bioInput.value = profile.bio || "";
-  avatarFallback.textContent = (profile.name || "你").trim().slice(0, 1);
+  avatarFallback.textContent = (profile.name || DEFAULT_PROFILE.name).trim().slice(0, 1);
 
   if (profile.avatar) {
     avatarPreview.src = profile.avatar;
@@ -173,7 +188,7 @@ profileForm.addEventListener("submit", (event) => {
   event.preventDefault();
   profile = {
     ...profile,
-    name: nameInput.value.trim() || "你的名字",
+    name: nameInput.value.trim() || DEFAULT_PROFILE.name,
     title: titleInput.value.trim(),
     bio: bioInput.value.trim(),
   };
