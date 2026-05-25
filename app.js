@@ -29,8 +29,6 @@ const mediaGrid = $("#mediaGrid");
 const messageForm = $("#messageForm");
 const messageList = $("#messageList");
 const messageTemplate = $("#messageTemplate");
-const visitorName = $("#visitorName");
-const visitorAvatar = $("#visitorAvatar");
 const messageText = $("#messageText");
 const attachmentPreview = $("#attachmentPreview");
 
@@ -112,11 +110,6 @@ function messageToLocalRow(message) {
 
 function getInitials(name) {
   return (name || "匿名访客").trim().slice(0, 1).toUpperCase();
-}
-
-function applyVisitor() {
-  visitorName.value = visitor.nickname || "";
-  visitorAvatar.value = visitor.avatarUrl || "";
 }
 
 function applyProfile() {
@@ -281,11 +274,6 @@ messageForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const data = new FormData(messageForm);
   const text = String(data.get("messageText")).trim();
-  visitor = {
-    nickname: String(data.get("visitorName")).trim() || "匿名访客",
-    avatarUrl: String(data.get("visitorAvatar")).trim(),
-  };
-  saveJSON(STORAGE_KEYS.visitor, visitor);
 
   if (!text) return;
 
@@ -318,7 +306,6 @@ messageForm.addEventListener("submit", async (event) => {
     messages = [message, ...messages];
     saveJSON(STORAGE_KEYS.messages, messages.map(messageToLocalRow));
     messageForm.reset();
-    applyVisitor();
     attachedImageFile = null;
     renderAttachmentPreview();
     renderMessages();
@@ -348,7 +335,6 @@ messageText.addEventListener("drop", (event) => {
 });
 
 applyProfile();
-applyVisitor();
 renderMedia();
 messages = messages.map(normalizeMessage);
 loadMessages();
