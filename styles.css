@@ -221,6 +221,7 @@ h2 {
 }
 
 .panel-band,
+.resume-band,
 .gallery-section,
 .message-section,
 .contact-band {
@@ -312,6 +313,27 @@ time {
 
 .gallery-section {
   background: #ffffff;
+}
+
+.resume-band {
+  background: #ffffff;
+}
+
+.resume-summary {
+  display: grid;
+  max-width: 980px;
+  margin: 0 auto;
+  gap: 12px;
+  padding: 22px;
+  color: #35403d;
+  background: #f7faf9;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  line-height: 1.8;
+}
+
+.resume-summary p {
+  margin: 0;
 }
 
 .upload-strip {
