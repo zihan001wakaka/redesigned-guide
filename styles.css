@@ -241,6 +241,50 @@ h2 {
   margin: 0 auto;
 }
 
+.profile-grid-static {
+  align-items: stretch;
+}
+
+.profile-card {
+  display: grid;
+  align-content: center;
+  gap: 18px;
+  padding: 22px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: 0 12px 32px rgba(24, 33, 31, 0.07);
+}
+
+.profile-card p {
+  margin: 0;
+  color: #35403d;
+  line-height: 1.75;
+}
+
+.profile-card dl {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.profile-card dl div {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 12px;
+}
+
+.profile-card dt {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.profile-card dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
 .editor,
 .message-form {
   display: grid;
@@ -336,45 +380,6 @@ time {
   margin: 0;
 }
 
-.upload-strip {
-  display: flex;
-  max-width: 980px;
-  margin: 0 auto 18px;
-  gap: 10px;
-}
-
-.upload-zone {
-  min-height: 72px;
-  flex: 1;
-  grid-template-columns: auto 1fr;
-  align-items: center;
-  padding: 16px;
-  color: var(--ink);
-  background: #f3f7f6;
-  border: 1px dashed #95aaa5;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.upload-zone input {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-}
-
-.upload-icon {
-  display: grid;
-  width: 38px;
-  height: 38px;
-  place-items: center;
-  color: white;
-  background: var(--sky);
-  border-radius: 8px;
-  font-size: 25px;
-}
-
 .icon-button {
   width: 44px;
   height: 44px;
@@ -465,6 +470,20 @@ time {
   grid-template-columns: 46px 1fr;
   gap: 14px;
   padding: 16px;
+}
+
+.message-image-field input {
+  background: #fbfcfa;
+}
+
+.message-image {
+  display: block;
+  width: min(100%, 420px);
+  max-height: 360px;
+  margin: 0 0 12px;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  border-radius: 8px;
 }
 
 .message-avatar {
@@ -586,10 +605,6 @@ time {
 
   .media-grid {
     grid-template-columns: 1fr;
-  }
-
-  .upload-strip {
-    align-items: stretch;
   }
 
   .message-card {

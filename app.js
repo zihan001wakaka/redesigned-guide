@@ -1,11 +1,7 @@
 const STORAGE_KEYS = {
-  profile: "personal_site_profile",
-  profileVersion: "personal_site_profile_version",
-  media: "personal_site_media",
   messages: "personal_site_messages",
 };
 
-const CURRENT_PROFILE_VERSION = "2026-05-25-zhang-zihan";
 const DEFAULT_PROFILE = {
   name: "张子晗",
   title: "产品 / 产品运营方向",
@@ -15,11 +11,6 @@ const DEFAULT_PROFILE = {
 
 const $ = (selector) => document.querySelector(selector);
 
-const profileForm = $("#profileForm");
-const nameInput = $("#nameInput");
-const titleInput = $("#titleInput");
-const bioInput = $("#bioInput");
-const avatarInput = $("#avatarInput");
 const profileName = $("#profileName");
 const profileTitle = $("#profileTitle");
 const profileBio = $("#profileBio");
@@ -27,24 +18,18 @@ const avatarPreview = $("#avatarPreview");
 const avatarFallback = $("#avatarFallback");
 const portraitRing = $(".portrait-ring");
 
-const mediaInput = $("#mediaInput");
 const mediaGrid = $("#mediaGrid");
-const clearMedia = $("#clearMedia");
-const mediaTemplate = $("#mediaTemplate");
 
 const messageForm = $("#messageForm");
 const messageList = $("#messageList");
 const messageTemplate = $("#messageTemplate");
 
-let profile = loadProfile();
-
-let mediaItems = loadJSON(STORAGE_KEYS.media, []);
 let messages = loadJSON(STORAGE_KEYS.messages, [
   {
     id: crypto.randomUUID(),
-    name: "访客",
-    mood: "来打招呼",
+    name: "留言",
     text: "页面很清爽，期待看到更多作品。",
+    image: "",
     likes: 3,
     createdAt: new Date().toISOString(),
   },
@@ -63,17 +48,6 @@ function saveJSON(key, value) {
   localStorage.setItem(key, JSON.stringify(value));
 }
 
-function loadProfile() {
-  const savedVersion = localStorage.getItem(STORAGE_KEYS.profileVersion);
-  if (savedVersion !== CURRENT_PROFILE_VERSION) {
-    saveJSON(STORAGE_KEYS.profile, DEFAULT_PROFILE);
-    localStorage.setItem(STORAGE_KEYS.profileVersion, CURRENT_PROFILE_VERSION);
-    return { ...DEFAULT_PROFILE };
-  }
-
-  return loadJSON(STORAGE_KEYS.profile, DEFAULT_PROFILE);
-}
-
 function fileToDataURL(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -84,59 +58,22 @@ function fileToDataURL(file) {
 }
 
 function applyProfile() {
-  profileName.textContent = profile.name || DEFAULT_PROFILE.name;
-  profileTitle.textContent = profile.title || "";
-  profileBio.textContent = profile.bio || "";
-  nameInput.value = profile.name || "";
-  titleInput.value = profile.title || "";
-  bioInput.value = profile.bio || "";
-  avatarFallback.textContent = (profile.name || DEFAULT_PROFILE.name).trim().slice(0, 1);
+  profileName.textContent = DEFAULT_PROFILE.name;
+  profileTitle.textContent = DEFAULT_PROFILE.title;
+  profileBio.textContent = DEFAULT_PROFILE.bio;
+  avatarFallback.textContent = DEFAULT_PROFILE.name.trim().slice(0, 1);
 
-  if (profile.avatar) {
-    avatarPreview.src = profile.avatar;
-    portraitRing.classList.add("has-image");
-  } else {
-    avatarPreview.removeAttribute("src");
-    portraitRing.classList.remove("has-image");
-  }
+  avatarPreview.src = DEFAULT_PROFILE.avatar;
+  portraitRing.classList.add("has-image");
 }
 
 function renderMedia() {
   mediaGrid.innerHTML = "";
 
-  if (!mediaItems.length) {
-    const empty = document.createElement("p");
-    empty.className = "empty";
-    empty.textContent = "还没有上传内容。";
-    mediaGrid.append(empty);
-    return;
-  }
-
-  mediaItems.forEach((item) => {
-    const node = mediaTemplate.content.cloneNode(true);
-    const card = node.querySelector(".media-card");
-    const shell = node.querySelector(".media-shell");
-    const name = node.querySelector(".media-name");
-    const remove = node.querySelector(".remove-media");
-
-    const element = document.createElement(item.type.startsWith("video/") ? "video" : "img");
-    element.src = item.src;
-    element.alt = item.name;
-    if (element.tagName === "VIDEO") {
-      element.controls = true;
-      element.playsInline = true;
-    }
-
-    shell.append(element);
-    name.textContent = item.name;
-    remove.addEventListener("click", () => {
-      mediaItems = mediaItems.filter((media) => media.id !== item.id);
-      saveJSON(STORAGE_KEYS.media, mediaItems);
-      renderMedia();
-    });
-
-    mediaGrid.append(card);
-  });
+  const empty = document.createElement("p");
+  empty.className = "empty";
+  empty.textContent = "影像内容暂未公开。";
+  mediaGrid.append(empty);
 }
 
 function renderMessages() {
@@ -155,16 +92,22 @@ function renderMessages() {
     const card = node.querySelector(".message-card");
     const avatar = node.querySelector(".message-avatar");
     const name = node.querySelector(".message-name");
-    const mood = node.querySelector(".message-mood");
     const text = node.querySelector(".message-text");
+    const image = node.querySelector(".message-image");
     const likeButton = node.querySelector(".like-button");
     const likeCount = likeButton.querySelector("span");
     const time = node.querySelector("time");
 
     avatar.textContent = message.name.trim().slice(0, 1).toUpperCase();
     name.textContent = message.name;
-    mood.textContent = message.mood;
     text.textContent = message.text;
+    if (message.image) {
+      image.src = message.image;
+      image.alt = "留言图片";
+      image.hidden = false;
+    } else {
+      image.hidden = true;
+    }
     likeCount.textContent = message.likes;
     time.dateTime = message.createdAt;
     time.textContent = new Intl.DateTimeFormat("zh-CN", {
@@ -184,63 +127,20 @@ function renderMessages() {
   });
 }
 
-profileForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  profile = {
-    ...profile,
-    name: nameInput.value.trim() || DEFAULT_PROFILE.name,
-    title: titleInput.value.trim(),
-    bio: bioInput.value.trim(),
-  };
-  saveJSON(STORAGE_KEYS.profile, profile);
-  applyProfile();
-});
-
-avatarInput.addEventListener("change", async () => {
-  const [file] = avatarInput.files;
-  if (!file) return;
-  profile.avatar = await fileToDataURL(file);
-  saveJSON(STORAGE_KEYS.profile, profile);
-  applyProfile();
-});
-
-mediaInput.addEventListener("change", async () => {
-  const files = [...mediaInput.files];
-  const additions = await Promise.all(
-    files.map(async (file) => ({
-      id: crypto.randomUUID(),
-      name: file.name,
-      type: file.type,
-      src: await fileToDataURL(file),
-    }))
-  );
-
-  mediaItems = [...additions, ...mediaItems].slice(0, 18);
-  saveJSON(STORAGE_KEYS.media, mediaItems);
-  renderMedia();
-  mediaInput.value = "";
-});
-
-clearMedia.addEventListener("click", () => {
-  mediaItems = [];
-  saveJSON(STORAGE_KEYS.media, mediaItems);
-  renderMedia();
-});
-
-messageForm.addEventListener("submit", (event) => {
+messageForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const data = new FormData(messageForm);
   const text = String(data.get("messageText")).trim();
-  const name = String(data.get("visitorName")).trim();
+  const [imageFile] = messageForm.messageImage.files;
 
-  if (!text || !name) return;
+  if (!text) return;
 
   messages = [
     {
       id: crypto.randomUUID(),
-      name,
-      mood: String(data.get("visitorMood")),
+      name: "留言",
       text,
+      image: imageFile ? await fileToDataURL(imageFile) : "",
       likes: 0,
       createdAt: new Date().toISOString(),
     },

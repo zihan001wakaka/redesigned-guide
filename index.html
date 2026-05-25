@@ -46,27 +46,20 @@
           <h2>个人信息</h2>
         </div>
 
-        <div class="profile-grid">
-          <form class="editor" id="profileForm">
-            <label>
-              <span>姓名</span>
-              <input id="nameInput" name="name" value="张子晗" autocomplete="name">
-            </label>
-            <label>
-              <span>身份</span>
-              <input id="titleInput" name="title" value="产品 / 产品运营方向">
-            </label>
-            <label>
-              <span>简介</span>
-              <textarea id="bioInput" name="bio" rows="4">上海大学建筑学硕士二年级，具备设计背景、互联网产品相关实习经历与数据分析能力，正在寻找产品或产品运营方向实习机会。</textarea>
-            </label>
-            <label>
-              <span>头像</span>
-              <input id="avatarInput" type="file" accept="image/*">
-            </label>
-            <button class="button primary" type="submit">保存资料</button>
-          </form>
-
+        <div class="profile-grid profile-grid-static">
+          <div class="profile-card">
+            <p>上海大学建筑学硕士二年级，具备设计背景、互联网产品相关实习经历与数据分析能力，正在寻找产品或产品运营方向实习机会。</p>
+            <dl>
+              <div>
+                <dt>电话</dt>
+                <dd>13225258123</dd>
+              </div>
+              <div>
+                <dt>邮箱</dt>
+                <dd>13225258123@163.com</dd>
+              </div>
+            </dl>
+          </div>
           <div class="fact-list" aria-label="个人亮点">
             <article>
               <span>学校</span>
@@ -101,15 +94,6 @@
           <h2>图片与视频</h2>
         </div>
 
-        <div class="upload-strip">
-          <label class="upload-zone" for="mediaInput">
-            <span class="upload-icon">+</span>
-            <span>上传图片或视频</span>
-            <input id="mediaInput" type="file" accept="image/*,video/*" multiple>
-          </label>
-          <button class="icon-button" id="clearMedia" type="button" aria-label="清空影像">×</button>
-        </div>
-
         <div class="media-grid" id="mediaGrid" aria-live="polite"></div>
       </section>
 
@@ -120,24 +104,13 @@
         </div>
 
         <form class="message-form" id="messageForm">
-          <div class="form-row">
-            <label>
-              <span>昵称</span>
-              <input id="visitorName" name="visitorName" placeholder="你的昵称" required>
-            </label>
-            <label>
-              <span>心情</span>
-              <select id="visitorMood" name="visitorMood">
-                <option>很喜欢</option>
-                <option>来打招呼</option>
-                <option>想合作</option>
-                <option>继续加油</option>
-              </select>
-            </label>
-          </div>
           <label>
             <span>留言</span>
             <textarea id="messageText" name="messageText" rows="4" placeholder="写点什么吧" required></textarea>
+          </label>
+          <label class="message-image-field">
+            <span>图片</span>
+            <input id="messageImage" name="messageImage" type="file" accept="image/*">
           </label>
           <button class="button primary" type="submit">发布留言</button>
         </form>
@@ -160,25 +133,15 @@
       </section>
     </main>
 
-    <template id="mediaTemplate">
-      <article class="media-card">
-        <div class="media-shell"></div>
-        <div class="media-meta">
-          <span class="media-name"></span>
-          <button class="icon-button remove-media" type="button" aria-label="删除">×</button>
-        </div>
-      </article>
-    </template>
-
     <template id="messageTemplate">
       <article class="message-card">
         <div class="message-avatar"></div>
         <div class="message-body">
           <div class="message-top">
             <strong class="message-name"></strong>
-            <span class="message-mood"></span>
           </div>
           <p class="message-text"></p>
+          <img class="message-image" alt="">
           <div class="message-actions">
             <button class="like-button" type="button">赞 <span>0</span></button>
             <time></time>
