@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>小小农场 MVP</title>
+    <link rel="stylesheet" href="styles.css?v=modal-fix-1">
+  </head>
+  <body>
+    <main class="app">
+      <header class="sky-section">
+        <div class="brand-sign">
+          <strong>农</strong>
+          <span>小小农场</span>
+        </div>
+        <div class="wallet" aria-label="金币">
+          <span>金币</span>
+          <strong id="coins">1000</strong>
+        </div>
+      </header>
+
+      <section class="farm-section" aria-label="农田">
+        <div class="farm-head">
+          <div>
+            <h1>农田</h1>
+            <p id="actionHint">先打开背包选择种子，再点击空地播种。</p>
+          </div>
+        </div>
+        <div class="farm-grid" id="farmGrid"></div>
+      </section>
+
+      <section class="tool-dock" aria-label="功能入口">
+        <button class="tool-button active" type="button" data-panel="shopPanel">
+          <span>店</span>
+          商店
+        </button>
+        <button class="tool-button" type="button" data-panel="bagPanel">
+          <span>包</span>
+          背包
+        </button>
+        <button class="tool-button" type="button" data-panel="warehousePanel">
+          <span>仓</span>
+          仓库
+        </button>
+      </section>
+
+      <section class="panel-area" aria-label="功能窗口">
+        <section class="panel active" id="shopPanel" data-panel-content>
+          <div class="panel-head">
+            <h2>商店</h2>
+            <span class="hint">购买种子</span>
+          </div>
+          <div class="shop-list" id="shopList"></div>
+        </section>
+
+        <section class="panel" id="bagPanel" data-panel-content hidden>
+          <div class="panel-head">
+            <h2>背包</h2>
+            <span class="hint" id="selectedSeedText">未选择种子</span>
+          </div>
+          <div class="bag-list" id="seedBagList"></div>
+        </section>
+
+        <section class="panel" id="warehousePanel" data-panel-content hidden>
+          <div class="panel-head">
+            <h2>仓库</h2>
+            <span class="hint">收获果实</span>
+          </div>
+          <div class="bag-list" id="warehouseList"></div>
+        </section>
+      </section>
+
+      <footer class="bottom-player">
+        <div class="avatar">农</div>
+        <div class="player-info">
+          <strong>AG超玩·轻狂</strong>
+          <span id="playerLevel">lv.1</span>
+          <div class="xp-bar" aria-label="经验">
+            <i id="xpFill"></i>
+          </div>
+          <small id="xpText">0 / 100 经验</small>
+        </div>
+        <div class="status-strip" aria-label="游戏状态">
+          <article>
+            <span>土地</span>
+            <strong>6</strong>
+          </article>
+          <article>
+            <span>果实</span>
+            <strong id="cropCount">0</strong>
+          </article>
+          <article>
+            <span>收获</span>
+            <strong id="harvestCount">0</strong>
+          </article>
+        </div>
+        <div class="quest">
+          <strong id="questState">进行中</strong>
+          <span id="questText"></span>
+        </div>
+      </footer>
+
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+      <div class="modal is-closed" id="quantityModal" hidden>
+        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+          <div class="modal-head">
+            <h2 id="modalTitle">选择数量</h2>
+            <button class="icon-button" id="modalClose" type="button" aria-label="关闭">×</button>
+          </div>
+          <p id="modalDesc"></p>
+          <div class="qty-grid" id="quantityOptions" aria-label="数量选项"></div>
+          <div class="modal-foot">
+            <span id="modalSummary">已选 1</span>
+            <button id="modalConfirm" type="button">确认</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <template id="plotTemplate">
+      <button class="plot" type="button">
+        <span class="ready-dot" hidden></span>
+        <span class="plot-icon"></span>
+        <strong class="plot-title"></strong>
+        <span class="plot-time"></span>
+        <span class="plot-progress"><i></i></span>
+      </button>
+    </template>
+
+    <template id="shopTemplate">
+      <article class="shop-item">
+        <span class="crop-icon"></span>
+        <div>
+          <strong class="crop-name"></strong>
+          <span class="crop-meta"></span>
+        </div>
+        <button type="button">购买</button>
+      </article>
+    </template>
+
+    <template id="bagTemplate">
+      <article class="bag-item">
+        <span class="crop-icon"></span>
+        <div>
+          <strong class="bag-name"></strong>
+          <span class="bag-meta"></span>
+        </div>
+        <button type="button"></button>
+      </article>
+    </template>
+
+    <script src="app.js?v=modal-fix-1"></script>
+  </body>
+</html>
