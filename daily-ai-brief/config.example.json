@@ -1,0 +1,64 @@
+{
+  "brief_title": "每日 AI 研究简报",
+  "timezone": "Asia/Shanghai",
+  "max_items": 5,
+  "min_china_items": 1,
+  "min_news_items": 2,
+  "candidate_limit": 40,
+  "download_assets": true,
+  "keywords": [
+    "large language model",
+    "LLM",
+    "agent",
+    "multimodal",
+    "reasoning",
+    "tool use",
+    "coding agent",
+    "RAG",
+    "alignment",
+    "evaluation",
+    "GUI agent",
+    "AI product"
+  ],
+  "arxiv_categories": [
+    "cs.AI",
+    "cs.LG",
+    "cs.CL",
+    "cs.CV"
+  ],
+  "semantic_scholar_queries": [
+    "large language model agent",
+    "multimodal reasoning",
+    "GUI agent automation",
+    "AI coding agent"
+  ],
+  "official_blogs": [
+    "https://openai.com/news/rss.xml"
+  ],
+  "news_feeds": [
+    {
+      "name": "MIT Technology Review",
+      "url": "https://www.technologyreview.com/feed/",
+      "source_type": "news_media"
+    },
+    {
+      "name": "VentureBeat AI",
+      "url": "https://venturebeat.com/category/ai/feed/",
+      "source_type": "news_media"
+    },
+    {
+      "name": "The Decoder",
+      "url": "https://the-decoder.com/feed/",
+      "source_type": "news_media"
+    },
+    {
+      "name": "OpenAI News",
+      "url": "https://openai.com/news/rss.xml",
+      "source_type": "official_blog"
+    }
+  ],
+  "delivery": {
+    "create_feishu_doc": false,
+    "send_feishu_message": false
+  }
+}

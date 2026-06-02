@@ -1,0 +1,13 @@
+.env
+__pycache__/
+*.pyc
+
+# Generated daily outputs
+data/
+reports/
+outputs/
+
+# Local editor/system files
+.DS_Store
+.idea/
+.vscode/

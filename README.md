@@ -1,4 +1,27 @@
-personal homepage and farm game demo
-personal homepage and farm game demo
+# Redesigned Guide
 
-Pages refresh: farm game published.
+这个仓库用于整理我的个人项目和原型作品。
+
+## 项目目录
+
+### 个人主页
+
+位置：仓库根目录
+
+用途：个人展示页面，包含个人信息、影像、留言和联系方式。
+
+### 小小农场 MVP
+
+位置：`farm-game/`
+
+用途：一个纯静态 Web 农场小游戏原型，包含商店、背包、农田、仓库、等级和本地存档。
+
+### 每日 AI 研究简报
+
+位置：`daily-ai-brief/`
+
+用途：每天自动抓取可靠 AI 论文、新闻和官方博客，筛选后生成简洁、可追溯的中文研究简报。当前支持本地 Markdown / HTML / Word 输出，后续可继续接入飞书文档和消息发送。
+
+## 说明
+
+仓库是公开的，所以自动化项目只保留代码、说明和配置模板，不提交 API Key、飞书密钥、每日生成的报告、PDF 或网页截图。
