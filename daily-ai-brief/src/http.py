@@ -6,7 +6,7 @@ import time
 import urllib.parse
 import urllib.request
 from typing import Any
-from urllib.error import URLError
+from urllib.error import HTTPError, URLError
 
 
 DEFAULT_HEADERS = {
@@ -68,6 +68,9 @@ def request_bytes(
         try:
             with urllib.request.urlopen(request, timeout=timeout, context=ssl_context()) as response:
                 return response.read()
+        except HTTPError as exc:
+            body_text = exc.read().decode("utf-8", errors="replace")
+            raise RuntimeError(f"HTTP {exc.code} {exc.reason}: {body_text}") from exc
         except URLError as exc:
             last_error = exc
             if attempt == retries:
