@@ -5,9 +5,6 @@ import html
 import re
 from pathlib import Path
 
-from docx import Document
-from docx.shared import Inches, Pt
-
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 REPORTS_DIR = PROJECT_ROOT / "reports"
@@ -24,13 +21,7 @@ def main() -> None:
     output_dir = args.output_dir
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    markdown = report.read_text(encoding="utf-8")
-    date_part = report.stem.replace("daily-ai-brief-", "")[:8]
-    html_out = output_dir / f"daily-ai-brief-{date_part}.html"
-    docx_out = output_dir / f"daily-ai-brief-{date_part}.docx"
-
-    build_html(markdown, html_out)
-    build_docx(markdown, docx_out)
+    html_out, docx_out = export_report(report, output_dir)
 
     print(html_out)
     print(docx_out)
@@ -41,6 +32,17 @@ def latest_report() -> Path:
     if not reports:
         raise FileNotFoundError("No reports found. Run `python3 -m src.main --config config.example.json` first.")
     return reports[-1]
+
+
+def export_report(report: Path, output_dir: Path = DEFAULT_OUTPUT_DIR) -> tuple[Path, Path]:
+    output_dir.mkdir(parents=True, exist_ok=True)
+    markdown = report.read_text(encoding="utf-8")
+    date_part = report.stem.replace("daily-ai-brief-", "")[:8]
+    html_out = output_dir / f"daily-ai-brief-{date_part}.html"
+    docx_out = output_dir / f"daily-ai-brief-{date_part}.docx"
+    build_html(markdown, html_out)
+    build_docx(markdown, docx_out)
+    return html_out, docx_out
 
 
 def build_html(markdown: str, path: Path) -> None:
@@ -221,6 +223,9 @@ def inline(text: str) -> str:
 
 
 def build_docx(markdown: str, path: Path) -> None:
+    from docx import Document
+    from docx.shared import Inches, Pt
+
     doc = Document()
     section = doc.sections[0]
     section.top_margin = Inches(0.85)

@@ -29,6 +29,14 @@ python3 -m src.main --config config.example.json
 
 报告会生成在 `reports/` 目录。
 
+如果要让本机每天稳定定时运行，使用：
+
+```bash
+scripts/run_daily_brief.sh
+```
+
+本机 `launchd` 定时安装说明见 `docs/LOCAL_AUTOMATION.md`。
+
 如果想把最新 Markdown 报告导出为 HTML / Word：
 
 ```bash

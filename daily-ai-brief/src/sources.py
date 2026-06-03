@@ -205,14 +205,25 @@ def fetch_semantic_scholar(config: AppConfig) -> list[Candidate]:
     return candidates
 
 
-def fetch_all(config: AppConfig) -> list[Candidate]:
+SOURCE_FETCHERS = (fetch_arxiv, fetch_arxiv_china, fetch_hugging_face_daily, fetch_news_feeds, fetch_semantic_scholar)
+
+
+def fetch_all_with_status(config: AppConfig) -> tuple[list[Candidate], list[str]]:
     collected: list[Candidate] = []
-    for fetcher in (fetch_arxiv, fetch_arxiv_china, fetch_hugging_face_daily, fetch_news_feeds, fetch_semantic_scholar):
+    failures: list[str] = []
+    for fetcher in SOURCE_FETCHERS:
         try:
             collected.extend(fetcher(config))
         except Exception as exc:
-            print(f"[warn] source failed: {fetcher.__name__}: {exc}")
-    return dedupe(collected)
+            message = f"{fetcher.__name__}: {exc}"
+            failures.append(message)
+            print(f"[warn] source failed: {message}")
+    return dedupe(collected), failures
+
+
+def fetch_all(config: AppConfig) -> list[Candidate]:
+    candidates, _ = fetch_all_with_status(config)
+    return candidates
 
 
 def dedupe(candidates: list[Candidate]) -> list[Candidate]:
